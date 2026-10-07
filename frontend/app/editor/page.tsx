@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { fetchIconNames } from "@/lib/api";
 import { EditorShell } from "@/components/editor/EditorShell";
 
@@ -12,7 +13,9 @@ export default async function EditorPage() {
   return (
     // Takes the full remaining viewport height (100dvh minus the 56px navbar)
     <div className="flex flex-col" style={{ height: "calc(100dvh - 56px)" }}>
-      <EditorShell icons={icons} />
+      <Suspense fallback={<div className="flex-1 flex items-center justify-center text-white/20 text-sm">Loading editor…</div>}>
+        <EditorShell icons={icons} />
+      </Suspense>
     </div>
   );
 }

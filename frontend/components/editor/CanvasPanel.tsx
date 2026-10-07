@@ -7,9 +7,10 @@ interface CanvasPanelProps {
   theme: "dark" | "light";
   perline: number;
   onRemove: (name: string) => void;
+  onReorder: (fromIdx: number, toIdx: number) => void;
 }
 
-export function CanvasPanel({ selected, theme, perline, onRemove }: CanvasPanelProps) {
+export function CanvasPanel({ selected, theme, perline, onRemove, onReorder }: CanvasPanelProps) {
   const cols = selected.length > 0 ? Math.min(perline, selected.length) : 0;
   const rows = selected.length > 0 ? Math.ceil(selected.length / perline) : 0;
 
@@ -56,12 +57,14 @@ export function CanvasPanel({ selected, theme, perline, onRemove }: CanvasPanelP
               className="grid"
               style={{ gridTemplateColumns: `repeat(${perline}, minmax(0, 1fr))` }}
             >
-              {selected.map((name) => (
+              {selected.map((name, idx) => (
                 <IconCell
                   key={name}
                   name={name}
+                  index={idx}
                   theme={theme}
                   onRemove={onRemove}
+                  onReorder={onReorder}
                 />
               ))}
             </div>
@@ -74,20 +77,47 @@ export function CanvasPanel({ selected, theme, perline, onRemove }: CanvasPanelP
 
 function IconCell({
   name,
+  index,
   theme,
   onRemove,
+  onReorder,
 }: {
   name: string;
+  index: number;
   theme: "dark" | "light";
   onRemove: (name: string) => void;
+  onReorder: (fromIdx: number, toIdx: number) => void;
 }) {
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData("text/plain", String(index));
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const fromIdx = parseInt(e.dataTransfer.getData("text/plain"), 10);
+    if (!isNaN(fromIdx) && fromIdx !== index) onReorder(fromIdx, index);
+  };
+
   return (
-    <div className="group relative flex items-center justify-center p-1.5">
+    <div
+      className="group relative flex items-center justify-center p-1.5 cursor-grab active:cursor-grabbing"
+      draggable
+      onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`${API_BASE}/icons?i=${name}&t=${theme}&perline=1`}
         alt={name}
-        className="w-12 h-12 block"
+        className="w-12 h-12 block select-none"
+        draggable={false}
       />
       {/* Remove button — visible on hover */}
       <button

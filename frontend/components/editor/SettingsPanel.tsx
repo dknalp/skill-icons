@@ -13,7 +13,7 @@ interface SettingsPanelProps {
   onPerlineChange: (n: number) => void;
 }
 
-type CopiedKey = "url" | "markdown" | "html" | null;
+type CopiedKey = "url" | "markdown" | "html" | "image" | null;
 
 export function SettingsPanel({
   selected,
@@ -29,6 +29,44 @@ export function SettingsPanel({
       await navigator.clipboard.writeText(text);
       setCopied(key);
       setTimeout(() => setCopied(null), 2000);
+    } catch {}
+  };
+
+  const copyImage = async () => {
+    if (!prodUrl) return;
+    try {
+      // Fetch SVG from the local worker (which has CORS headers)
+      const localUrl = prodUrl.replace("https://skillicons.dev", "http://localhost:8787");
+      const svgText = await fetch(localUrl).then((r) => r.text());
+
+      // Draw SVG onto a canvas to get a PNG blob
+      const img = new Image();
+      const blob = new Blob([svgText], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = reject;
+        img.src = url;
+      });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob(async (pngBlob) => {
+        if (!pngBlob) return;
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/png": pngBlob }),
+          ]);
+          setCopied("image");
+          setTimeout(() => setCopied(null), 2000);
+        } catch {}
+      }, "image/png");
     } catch {}
   };
 
@@ -147,6 +185,35 @@ export function SettingsPanel({
               copied={copied}
               onCopy={copy}
             />
+            {/* Copy image button */}
+            <button
+              type="button"
+              onClick={copyImage}
+              className={cn(
+                "flex items-center justify-center gap-2 w-full rounded-xl border py-2.5 text-sm font-medium transition-all",
+                copied === "image"
+                  ? "border-white/30 bg-white text-black"
+                  : "border-white/[0.08] bg-white/[0.03] text-white/60 hover:bg-white/[0.08] hover:text-white hover:border-white/20"
+              )}
+            >
+              {copied === "image" ? (
+                <>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7L5.5 10.5L12 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Image copied!
+                </>
+              ) : (
+                <>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="2" y="4" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                    <path d="M5 4V3C5 2.44772 5.44772 2 6 2H11C11.5523 2 12 2.44772 12 3V8C12 8.55228 11.5523 9 11 9H10" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                    <path d="M4.5 7.5L6.5 9.5L9.5 6" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Copy as PNG image
+                </>
+              )}
+            </button>
           </div>
         )}
       </Section>

@@ -7,6 +7,60 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 import { API_BASE } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
+// Mirror of shortNames from index.js — used for alias-aware search
+const SHORT_NAMES: Record<string, string> = {
+  js: "javascript", ts: "typescript", py: "python",
+  tailwind: "tailwindcss", vue: "vuejs", nuxt: "nuxtjs",
+  go: "golang", cf: "cloudflare", wasm: "webassembly",
+  postgres: "postgresql", k8s: "kubernetes", next: "nextjs",
+  mongo: "mongodb", md: "markdown", ps: "photoshop",
+  ai: "illustrator", pr: "premiere", ae: "aftereffects",
+  scss: "sass", sc: "scala", net: "dotnet",
+  gatsbyjs: "gatsby", gql: "graphql", vlang: "v",
+  amazonwebservices: "aws", bots: "discordbots",
+  express: "expressjs", googlecloud: "gcp", mui: "materialui",
+  windi: "windicss", unreal: "unrealengine", nest: "nestjs",
+  ktorio: "ktor", pwsh: "powershell", au: "audition",
+  rollup: "rollupjs", rxjs: "reactivex", rxjava: "reactivex",
+  ghactions: "githubactions", sklearn: "scikitlearn",
+  hf: "huggingface", lc: "langchain", rr: "reactrouter",
+  davinci: "davinciresolve", scholar: "googlescholar",
+  fm: "framermotion",
+};
+
+// Alias map: canonical name → list of aliases that point to it
+const ALIASES: Record<string, string[]> = {};
+for (const [alias, target] of Object.entries(SHORT_NAMES)) {
+  if (!ALIASES[target]) ALIASES[target] = [];
+  ALIASES[target].push(alias);
+}
+
+function fuzzyFilter(icons: string[], q: string): string[] {
+  if (!q) return icons;
+  // If query exactly matches a shortName alias, expand it
+  const aliasTarget = SHORT_NAMES[q];
+  const resultSet = new Set<string>();
+
+  // Priority 1: exact alias match (e.g. "ts" → add "typescript" first)
+  if (aliasTarget && icons.includes(aliasTarget)) resultSet.add(aliasTarget);
+
+  // Priority 2: prefix match on icon name
+  for (const n of icons) if (n.startsWith(q)) resultSet.add(n);
+
+  // Priority 3: substring match on icon name
+  for (const n of icons) if (n.includes(q) && !resultSet.has(n)) resultSet.add(n);
+
+  // Priority 4: query matches one of the icon's aliases
+  for (const n of icons) {
+    if (!resultSet.has(n)) {
+      const aliases = ALIASES[n] ?? [];
+      if (aliases.some((a) => a.includes(q))) resultSet.add(n);
+    }
+  }
+
+  return [...resultSet];
+}
+
 interface LibraryPanelProps {
   icons: string[];
   selected: Set<string>;
@@ -18,8 +72,7 @@ export function LibraryPanel({ icons, selected, theme, onToggle }: LibraryPanelP
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim();
-    return q ? icons.filter((n) => n.includes(q)) : icons;
+    return fuzzyFilter(icons, search.toLowerCase().trim());
   }, [icons, search]);
 
   return (
