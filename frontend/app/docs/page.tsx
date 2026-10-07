@@ -28,6 +28,7 @@ const NAV = [
   { id: "perline", label: "Per Line" },
   { id: "aliases", label: "Aliases" },
   { id: "icons-list", label: "All Icons" },
+  { id: "contributing", label: "Contributing" },
 ];
 
 export default async function DocsPage() {
@@ -198,7 +199,7 @@ export default async function DocsPage() {
           <Separator className="bg-white/10" />
 
           {/* All icons */}
-          <section id="icons-list">
+          <section id="icons-list" className="scroll-mt-20">
             <DocHeading>
               All Icons{" "}
               <span className="text-white/30 font-normal text-xl">({icons.length})</span>
@@ -228,7 +229,105 @@ export default async function DocsPage() {
               </Link>
             </div>
           </section>
+        <Separator className="bg-white/10" />
+
+          {/* Contributing */}
+          <section id="contributing" className="scroll-mt-20">
+            <DocHeading>Adding a New Icon</DocHeading>
+            <p className="text-white/40 mb-6 text-sm leading-relaxed">
+              Want to contribute an icon? Follow these steps to make sure it renders correctly in the composite SVG sheet.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              <Step n={1} title="Prepare your SVG">
+                <p className="text-sm text-white/40 leading-relaxed mb-3">
+                  Icons must be <Mono>256×256</Mono> with <Mono>{"viewBox=\"0 0 256 256\""}</Mono>.
+                  No <Mono>{"<style>"}</Mono> blocks — CSS class names collide when icons are composited.
+                  Use inline <Mono>fill="..."</Mono> attributes instead.
+                  Prefix gradient/filter IDs with a unique string to avoid conflicts.
+                </p>
+                <CodeBlock label="Correct format">
+{`<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- paths with inline fill attributes -->
+  <linearGradient id="myicon_grad1" ...>...</linearGradient>
+  <path fill="url(#myicon_grad1)" d="..." />
+</svg>`}
+                </CodeBlock>
+              </Step>
+
+              <Step n={2} title="Name the file">
+                <p className="text-sm text-white/40 leading-relaxed mb-3">
+                  Use <strong className="text-white/60">TitleCase</strong>. Themed icons get <Mono>-Dark</Mono> / <Mono>-Light</Mono> suffixes. Single unthemed icons get no suffix.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
+                    <p className="text-xs font-mono text-white/25 uppercase tracking-widest mb-2">✅ Correct</p>
+                    <p className="font-mono text-xs text-white/60">ReactRouter-Dark.svg</p>
+                    <p className="font-mono text-xs text-white/60">ReactRouter-Light.svg</p>
+                    <p className="font-mono text-xs text-white/60">GoogleColab.svg</p>
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-white/[0.02] p-3">
+                    <p className="text-xs font-mono text-white/25 uppercase tracking-widest mb-2">❌ Incorrect</p>
+                    <p className="font-mono text-xs text-white/40 line-through">react-router-dark.svg</p>
+                    <p className="font-mono text-xs text-white/40 line-through">googlecolab.svg</p>
+                    <p className="font-mono text-xs text-white/40 line-through">Google-Colab-Dark.svg</p>
+                  </div>
+                </div>
+              </Step>
+
+              <Step n={3} title="Drop it in icons/ and rebuild">
+                <CodeBlock label="Terminal">
+{`# Place your file(s) in icons/
+# Then rebuild the icon map:
+node build.js`}
+                </CodeBlock>
+              </Step>
+
+              <Step n={4} title="Test locally">
+                <CodeBlock label="Terminal">
+{`npx esbuild index.js --bundle --outfile=dist/worker.js --platform=browser --format=iife
+./node_modules/.bin/miniflare dist/worker.js --wrangler-config wrangler.dev.toml \\
+  --no-update-check --port 8787 --upstream https://skillicons.dev`}
+                </CodeBlock>
+                <p className="text-sm text-white/40 mt-3">
+                  Then open{" "}
+                  <Mono>http://localhost:8787/icons?i=youriconname</Mono>{" "}
+                  and check both <Mono>t=dark</Mono> and <Mono>t=light</Mono> if applicable.
+                </p>
+              </Step>
+
+              <Step n={5} title="Open a pull request">
+                <p className="text-sm text-white/40 leading-relaxed">
+                  Title: <Mono>feat: add {"<IconName>"} icon</Mono>. Include the icon&apos;s license and source.
+                  One icon per PR keeps review fast. See{" "}
+                  <a
+                    href="https://github.com/tandpfun/skill-icons/blob/main/CONTRIBUTING.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/60 hover:text-white underline underline-offset-2 transition-colors"
+                  >
+                    CONTRIBUTING.md
+                  </a>{" "}
+                  for the full checklist.
+                </p>
+              </Step>
+            </div>
+          </section>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function Step({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-4">
+      <div className="shrink-0 w-7 h-7 rounded-full border border-white/[0.12] bg-white/[0.04] flex items-center justify-center text-xs font-mono text-white/40 mt-0.5">
+        {n}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-white mb-3">{title}</p>
+        {children}
       </div>
     </div>
   );

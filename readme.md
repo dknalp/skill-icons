@@ -15,6 +15,7 @@
 - [Icons Per Line](#icons-per-line)
 - [Centering Icons](#centering-icons)
 - [Icons List](#icons-list)
+- [Adding a New Icon](#adding-a-new-icon)
 
 # Example
 
@@ -321,6 +322,20 @@ Here's a list of all the icons currently supported. Feel free to open an issue t
 |       `yarn`       |     <img src="./icons/Yarn-Dark.svg" width="48">      |
 |       `yew`        |      <img src="./icons/Yew-Dark.svg" width="48">      |
 |       `zig`        |      <img src="./icons/Zig-Dark.svg" width="48">      |
+
+---
+
+## Adding a New Icon
+
+Want to contribute an icon? See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide. Quick summary:
+
+1. **Prepare your SVG** — `256×256`, `viewBox="0 0 256 256"`, no `<style>` blocks, inline `fill` attributes only, namespaced gradient/filter IDs.
+2. **Name the file** — `IconName.svg` for unthemed icons, `IconName-Dark.svg` / `IconName-Light.svg` for themed pairs. Use TitleCase.
+3. **Drop it in `icons/`** and run `node build.js` to rebuild `dist/icons.json`.
+4. **Test locally** — start the worker and open `http://localhost:8787/icons?i=youriconname`.
+5. **Open a PR** with title `feat: add <IconName> icon` and include the icon's license/source.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed rules, common pitfalls, and what we don't accept.
 
 ---
 
