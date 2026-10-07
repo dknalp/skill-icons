@@ -44,8 +44,6 @@ const shortNames = {
   hf: 'huggingface',
   lc: 'langchain',
   rr: 'reactrouter',
-  mssql: 'mssqlserver',
-  sqlserver: 'mssqlserver',
   davinci: 'davinciresolve',
   scholar: 'googlescholar',
   fm: 'framermotion',
