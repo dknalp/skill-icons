@@ -48,7 +48,7 @@ export default function Home() {
               href="/editor"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "bg-white text-black hover:bg-white/90 font-semibold h-11 px-7 rounded-full text-sm shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_8px_32px_rgba(255,255,255,0.08)]"
+                "bg-white text-black hover:bg-white/90 font-semibold h-11 px-7 rounded-full text-sm"
               )}
             >
               Open Editor
@@ -94,7 +94,7 @@ export default function Home() {
       {/* ── Stats ── */}
       <section className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-14">
         <div className="grid grid-cols-3 divide-x divide-white/[0.07]">
-          <Stat value="402" label="SVG Icons" />
+          <Stat value="483+" label="SVG Icons" />
           <Stat value="2" label="Themes" />
           <Stat value="1" label="URL" />
         </div>
@@ -104,46 +104,18 @@ export default function Home() {
 
       {/* ── Features ── */}
       <section className="mx-auto w-full max-w-5xl px-4 sm:px-6 py-24">
-        <div className="mb-16 max-w-xl">
-          <p className="text-[11px] font-mono text-white/25 uppercase tracking-[0.2em] mb-4">Features</p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-white leading-tight">
-            Simple by design,<br />powerful by default.
-          </h2>
-          <p className="mt-4 text-white/40 leading-relaxed text-sm">
-            Everything you need to showcase your tech stack — nothing you don&apos;t.
-          </p>
-        </div>
-
-        <div className="grid gap-px bg-white/[0.07] rounded-xl overflow-hidden sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-px bg-white/[0.07] rounded-xl overflow-hidden sm:grid-cols-3">
           <FeatureCard
-            icon={<GridIcon />}
-            title="402 Icons"
-            description="Every major language, framework, tool, and platform. Dark and light themed variants included."
+            title="483 icons"
+            description="Languages, frameworks, tools, platforms. Dark and light variants where it matters."
           />
           <FeatureCard
-            icon={<LinkIcon />}
             title="One URL"
-            description="A single image URL works in any Markdown file, HTML page, or email. Zero dependencies."
+            description="Drop a single image URL into any README, HTML page, or email. No tokens, no install."
           />
           <FeatureCard
-            icon={<BrushIcon />}
-            title="Visual Editor"
-            description="Search, select, and reorder icons interactively. Copy the Markdown, HTML, or raw URL."
-          />
-          <FeatureCard
-            icon={<SunIcon />}
-            title="Dark & Light Themes"
-            description="Switch between dark and light icon variants with a single query parameter."
-          />
-          <FeatureCard
-            icon={<RowsIcon />}
-            title="Flexible Layout"
-            description="Control icons per row with ?perline=1–50. Stack them tall or spread them wide."
-          />
-          <FeatureCard
-            icon={<CodeIcon />}
-            title="Open Source"
-            description="All icons and the Cloudflare Worker API are fully open source. Contributions welcome."
+            title="Visual editor"
+            description="Search, pick, reorder. Copy as Markdown, HTML, or a plain URL. Done in 30 seconds."
           />
         </div>
       </section>
@@ -188,10 +160,10 @@ export default function Home() {
 
         <div className="relative flex flex-col items-center gap-6 max-w-2xl">
           <h2 className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] text-white leading-tight [text-wrap:balance]">
-            Show the world<br />what you&apos;re built with
+            Your stack,<br />one line of Markdown
           </h2>
           <p className="text-white/40 text-base leading-relaxed [text-wrap:balance] max-w-md">
-            Thousands of developers use Skill Icons to showcase their stack on GitHub profiles, READMEs, and portfolios.
+            Pick your icons, copy the URL, paste it in your README. That&apos;s it.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-2">
             <Link
@@ -247,16 +219,11 @@ function Stat({ value, label }: { value: string; label: string }) {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+function FeatureCard({ title, description }: { title: string; description: string }) {
   return (
-    <div className="group bg-black hover:bg-white/[0.025] transition-colors duration-200 p-8 flex flex-col gap-5">
-      <div className="w-9 h-9 rounded-lg border border-white/10 bg-white/[0.04] flex items-center justify-center text-white/40 group-hover:text-white/70 group-hover:border-white/20 transition-colors duration-200">
-        {icon}
-      </div>
-      <div className="flex flex-col gap-2">
-        <h3 className="font-semibold text-white text-[15px] tracking-tight">{title}</h3>
-        <p className="text-sm text-white/35 leading-relaxed">{description}</p>
-      </div>
+    <div className="bg-black p-8 flex flex-col gap-3">
+      <h3 className="font-semibold text-white text-[15px] tracking-tight">{title}</h3>
+      <p className="text-sm text-white/35 leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -322,48 +289,6 @@ function CodeBlock() {
 }
 
 // ── Icons ──
-function GridIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-    </svg>
-  );
-}
-function LinkIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
-    </svg>
-  );
-}
-function BrushIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42" />
-    </svg>
-  );
-}
-function SunIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-    </svg>
-  );
-}
-function RowsIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-    </svg>
-  );
-}
-function CodeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
-    </svg>
-  );
-}
 function GithubIcon() {
   return (
     <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
