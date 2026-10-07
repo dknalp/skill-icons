@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skill Icons — Frontend
 
-## Getting Started
+A modern Next.js website for [skillicons.dev](https://skillicons.dev). Browse 326+ developer skill icons, configure your badge visually, and copy a single URL to embed anywhere.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, TypeScript)
+- **Tailwind CSS v4**
+- **shadcn/ui** (Base UI components)
+- **Cloudflare Workers** API at `https://skillicons.dev`
+
+## Pages
+
+| Route | Description |
+|---|---|
+| `/` | Landing page — hero, features, quick-start |
+| `/docs` | API reference — parameters, themes, aliases, full icon list |
+| `/editor` | Visual badge builder — search icons, configure, copy badge |
+
+## Editor features
+
+- **Search** — filter all 326 icons by name in real time
+- **Theme toggle** — dark / light icon variants
+- **Per-row slider** — control how many icons appear per line (1–50)
+- **Live preview** — see your badge update instantly
+- **One-click export** — copy as URL, Markdown badge, or HTML `<img>`
+- **Inline remove** — hover any icon in the preview to reveal a remove button
+
+## Development
+
+The frontend talks to the Cloudflare Worker running locally on port 8787. Start both:
 
 ```bash
+# 1. Start the icon API worker (from repo root)
+node build.js
+npx esbuild index.js --bundle --outfile=dist/worker.js --platform=browser --format=iife
+./node_modules/.bin/miniflare dist/worker.js --wrangler-config wrangler.dev.toml --no-update-check --port 8787 --upstream https://skillicons.dev
+
+# 2. Start the Next.js dev server (from /frontend)
+cd frontend
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend: **http://localhost:3000** · API: **http://localhost:8787**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Default | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_BASE` | `http://localhost:8787` | Icon API base URL. Set to `https://skillicons.dev` in production. |
 
-## Learn More
+## Deploy to Vercel
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Import the repo on [vercel.com/new](https://vercel.com/new)
+2. Set **Root Directory** to `frontend`
+3. Add env var: `NEXT_PUBLIC_API_BASE=https://skillicons.dev`
+4. Deploy
