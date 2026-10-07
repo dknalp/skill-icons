@@ -47,6 +47,20 @@ const shortNames = {
   davinci: 'davinciresolve',
   scholar: 'googlescholar',
   fm: 'framermotion',
+  yt: 'youtube',
+  tg: 'telegram',
+  fb: 'facebook',
+  wa: 'whatsapp',
+  ig: 'instagram',
+  tt: 'tiktok',
+  gh: 'github',
+  tw: 'twitch',
+  dc: 'discord',
+  bs: 'bluesky',
+  rr2: 'reddit',
+  xd: 'adobexd',
+  iv: 'invision',
+  trbo: 'turborepo',
 };
 const themedIcons = [
   ...Object.keys(icons)

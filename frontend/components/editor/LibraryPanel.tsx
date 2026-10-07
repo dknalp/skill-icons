@@ -26,6 +26,11 @@ const SHORT_NAMES: Record<string, string> = {
   hf: "huggingface", lc: "langchain", rr: "reactrouter",
   davinci: "davinciresolve", scholar: "googlescholar",
   fm: "framermotion",
+  yt: "youtube", tg: "telegram", fb: "facebook",
+  wa: "whatsapp", ig: "instagram", tt: "tiktok",
+  gh: "github", tw: "twitch", dc: "discord",
+  bs: "bluesky", xd: "adobexd", iv: "invision",
+  trbo: "turborepo",
 };
 
 // Alias map: canonical name → list of aliases that point to it
