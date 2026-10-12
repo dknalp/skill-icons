@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
-import { buildProdUrl } from "@/lib/api";
+import { buildIconUrl } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 interface SettingsPanelProps {
@@ -36,8 +36,7 @@ export function SettingsPanel({
     if (!prodUrl) return;
     try {
       // Fetch SVG from our own API route
-      const localUrl = prodUrl.replace("https://skillicons.dev", "");
-      const svgText = await fetch(localUrl).then((r) => r.text());
+      const svgText = await fetch(prodUrl).then((r) => r.text());
 
       // Draw SVG onto a canvas to get a PNG blob
       const img = new Image();
@@ -70,8 +69,8 @@ export function SettingsPanel({
     } catch {}
   };
 
-  const prodUrl = selected.length > 0 ? buildProdUrl(selected, theme, perline) : "";
-  const markdown = prodUrl ? `[![My Skills](${prodUrl})](https://skillicons.dev)` : "";
+  const prodUrl = selected.length > 0 ? buildIconUrl(selected, theme, perline) : "";
+  const markdown = prodUrl ? `[![My Skills](${prodUrl})](${prodUrl})` : "";
   const html = prodUrl ? `<img src="${prodUrl}" alt="My Skills" />` : "";
 
   const rows = selected.length > 0 ? Math.ceil(selected.length / perline) : 0;
