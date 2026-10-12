@@ -1,5 +1,5 @@
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8787";
+  process.env.NEXT_PUBLIC_API_BASE ?? "";
 
 export const PROD_BASE = "https://skillicons.dev";
 

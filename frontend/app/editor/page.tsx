@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { fetchIconNames } from "@/lib/api";
+import { iconNameList } from "@/lib/icons";
 import { EditorShell } from "@/components/editor/EditorShell";
 
 export const metadata = {
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function EditorPage() {
-  const icons = await fetchIconNames().catch(() => [] as string[]);
+  const icons = iconNameList;
 
   return (
     // Takes the full remaining viewport height (100dvh minus the 56px navbar)

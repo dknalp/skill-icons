@@ -35,8 +35,8 @@ export function SettingsPanel({
   const copyImage = async () => {
     if (!prodUrl) return;
     try {
-      // Fetch SVG from the local worker (which has CORS headers)
-      const localUrl = prodUrl.replace("https://skillicons.dev", "http://localhost:8787");
+      // Fetch SVG from our own API route
+      const localUrl = prodUrl.replace("https://skillicons.dev", "");
       const svgText = await fetch(localUrl).then((r) => r.text());
 
       // Draw SVG onto a canvas to get a PNG blob
