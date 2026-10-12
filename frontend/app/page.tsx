@@ -204,6 +204,7 @@ function IconChip({ icon, theme }: { icon: string; theme: "dark" | "light" }) {
         src={`${API_BASE}/icons?i=${icon}&t=${theme}&perline=1`}
         alt={icon}
         className="h-7 w-7"
+        fetchPriority="low"
       />
       <span className="text-xs text-white/35 font-mono">{icon}</span>
     </div>
@@ -282,6 +283,7 @@ function CodeBlock() {
           src={`${API_BASE}/icons?i=js,ts,react,nodejs,python&t=dark&perline=5`}
           alt="Preview"
           className="h-10 w-auto opacity-90"
+          fetchPriority="low"
         />
       </div>
     </div>

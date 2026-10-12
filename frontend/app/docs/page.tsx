@@ -93,6 +93,7 @@ export default async function DocsPage() {
                 src={`${API_BASE}/icons?i=js,html,css,wasm&t=dark&perline=15`}
                 alt="Example"
                 className="h-12"
+                fetchPriority="low"
               />
             </div>
             <div className="mt-4 rounded-lg border border-white/10 overflow-hidden">
@@ -138,7 +139,7 @@ export default async function DocsPage() {
                 </div>
                 <div className="p-4 bg-zinc-950">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`${API_BASE}/icons?i=react,ts,python&t=dark&perline=15`} alt="Dark" className="h-12" />
+                  <img src={`${API_BASE}/icons?i=react,ts,python&t=dark&perline=15`} alt="Dark" className="h-12" fetchPriority="low" />
                 </div>
               </div>
               <div className="rounded-lg border border-white/10 overflow-hidden">
@@ -147,7 +148,7 @@ export default async function DocsPage() {
                 </div>
                 <div className="p-4 bg-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`${API_BASE}/icons?i=react,ts,python&t=light&perline=15`} alt="Light" className="h-12" />
+                  <img src={`${API_BASE}/icons?i=react,ts,python&t=light&perline=15`} alt="Light" className="h-12" fetchPriority="low" />
                 </div>
               </div>
             </div>
@@ -164,7 +165,7 @@ export default async function DocsPage() {
             <CodeBlock label="Example">{`GET /icons?i=aws,gcp,azure,react,vue,flutter&perline=3`}</CodeBlock>
             <div className="mt-4 p-4 rounded-lg border border-white/10 bg-zinc-950">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${API_BASE}/icons?i=aws,gcp,azure,react,vue,flutter&t=dark&perline=3`} alt="perline=3" className="h-auto" />
+              <img src={`${API_BASE}/icons?i=aws,gcp,azure,react,vue,flutter&t=dark&perline=3`} alt="perline=3" className="h-auto" fetchPriority="low" />
             </div>
           </section>
 
