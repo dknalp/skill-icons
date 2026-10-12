@@ -64,14 +64,11 @@ export const shortNames: Record<string, string> = {
   fb: "facebook",
   wa: "whatsapp",
   ig: "instagram",
-  tt: "tiktok",
-  gh: "github",
+    gh: "github",
   tw: "twitch",
   dc: "discord",
   bs: "bluesky",
   rr2: "reddit",
-  xd: "adobexd",
-  iv: "invision",
   trbo: "turborepo",
 };
 
