@@ -42,7 +42,7 @@ export default function Navbar() {
 
           <div className="ml-3 flex items-center gap-2">
             <a
-              href="https://github.com/tandpfun/skill-icons"
+              href="https://github.com/dknalp/skill-icons"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center w-8 h-8 rounded-md text-white/40 hover:text-white hover:bg-white/[0.06] transition-colors"
