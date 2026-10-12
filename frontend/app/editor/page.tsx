@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import { iconNameList } from "@/lib/icons";
 import { EditorShell } from "@/components/editor/EditorShell";
 
+export const revalidate = 0; // never cache — always serve the latest icon list
+
 export const metadata = {
   title: "Editor — Skill Icons",
   description: "Build your skill badge visually. Search, select and configure 326+ icons.",
